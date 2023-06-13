@@ -1,0 +1,30 @@
+﻿<Application x:Class="WorkAnalitycsWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WorkAnalitycsWPF"
+             StartupUri="/View/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Theme\Text_Main.xaml"/>
+                <ResourceDictionary Source="\Theme\Text_ErrorIndicator.xaml"/>
+
+                <ResourceDictionary Source="\Theme\TextBlock_MenuPoint.xaml"/>
+
+                <ResourceDictionary Source="\Theme\TextBox_RoundedDef.xaml"/>
+                <ResourceDictionary Source="\Theme\PasswordBox_RoundedDef.xaml"/>
+
+                <ResourceDictionary Source="\Theme\Border_TextLoader.xaml"/>
+                <ResourceDictionary Source="\Theme\TextBlock_TextLoader.xaml"/>
+
+                <ResourceDictionary Source="\Theme\Button_Type01.xaml"/>
+                <ResourceDictionary Source="\Theme\Button_Type02.xaml"/>
+                <ResourceDictionary Source="\Theme\Button_CircleButton.xaml"/>
+                <ResourceDictionary Source="\Theme\Button_ToTaskbar.xaml"/>
+                <ResourceDictionary Source="\Theme\Button_CloseWindow.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>

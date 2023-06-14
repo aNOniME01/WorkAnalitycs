@@ -38,6 +38,7 @@ namespace WorkAnalitycsWPF.Data
         {
             ActiveClientID = activeClientID;
             MainFrame.Content = orderPage;
+            orderPage.UpdateLayout();
         }
 
         public static void DeactivateClient() => ActiveClientID = -1;
@@ -59,7 +60,15 @@ namespace WorkAnalitycsWPF.Data
             if (ViewType == 1)
             {
                 MainFrame.Content = orderPage;
+                orderPage.UpdateLayout();
             }
+            else
+            {
+                MainFrame.Content = clientPage;
+            }
+
+            DeactivateClient();
+            DeactivateOrder();
         }
 
     }

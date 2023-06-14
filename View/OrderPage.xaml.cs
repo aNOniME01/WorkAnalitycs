@@ -51,23 +51,24 @@ namespace WorkAnalitycsWPF.View
 
         public void UpdateLayout()
         {
+            List<Order> selectedOrders = Orders;
             if (Logger.ViewType == 0)
             {
-                Orders = Orders.Where(x => x.ClientID == Logger.ActiveClientID).ToList(); ;
+                selectedOrders = Orders.Where(x => x.ClientID == Logger.ActiveClientID).ToList();
             }
 
 
             int clientNum = 0;
             grid.Children.Clear();
 
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Orders.Count(); i++)
+            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < selectedOrders.Count(); i++)
             {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Orders.Count(); j++)
+                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < selectedOrders.Count(); j++)
                 {
                     Button btn = new Button();
 
                     btn.Name = $"client_{clientNum}";
-                    btn.Content = Orders[clientNum].DeliveryDate;
+                    btn.Content = $"order{selectedOrders[clientNum].ID}\n{selectedOrders[clientNum].DeliveryDate}";
 
                     btn.Click += Order_Click;
 

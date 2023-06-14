@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkAnalitycsWPF.Data;
 using WorkAnalitycsWPF.View;
 using WorkAnalytics.Data;
 
@@ -24,8 +25,6 @@ namespace WorkAnalitycsWPF
     public partial class MainWindow : Window
     {
 
-        private static List<Model> Models;
-        private static List<Order> Orders;
         private static List<Revision> Revisions;
         public MainWindow()
         {
@@ -34,13 +33,13 @@ namespace WorkAnalitycsWPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Models = MiniExcel.Query<Model>("Models.xlsx").ToList();
-            Orders = MiniExcel.Query<Order>("Orders.xlsx").ToList();
             Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
 
             ClientPage clientPage = new ClientPage();
 
             frame.Content = clientPage;
+
+            Logger.LoadLogger(frame);
         }
 
 
@@ -60,5 +59,28 @@ namespace WorkAnalitycsWPF
             DragMove();
         }
 
+        private void Windowed_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.ResizeMode = ResizeMode.CanResize;
+                this.WindowState = WindowState.Normal;
+                this.Topmost = false;
+            }
+            else
+            {
+                this.ResizeMode = ResizeMode.NoResize;
+                this.WindowState = WindowState.Maximized;
+                this.Topmost = true;
+            }
+        }
+
+        #region MenuItems
+
+        private void ClientBased_Click(object sender, RoutedEventArgs e) => Logger.SetViewType(0);
+
+        private void OrderBased_Click(object sender, RoutedEventArgs e) => Logger.SetViewType(1);
+
+        #endregion
     }
 }

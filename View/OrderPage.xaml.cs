@@ -19,17 +19,16 @@ using WorkAnalytics.Data;
 namespace WorkAnalitycsWPF.View
 {
     /// <summary>
-    /// Interaction logic for ClientPage.xaml
+    /// Interaction logic for OrderPage.xaml
     /// </summary>
-    public partial class ClientPage : Page
+    public partial class OrderPage : Page
     {
-        private static List<Client> Clients;
+        private static List<Order> Orders;
 
-        public ClientPage()
+        public OrderPage()
         {
             InitializeComponent();
-            
-            Clients = MiniExcel.Query<Client>("Clients.xlsx").ToList();
+            Orders = MiniExcel.Query<Order>("Orders.xlsx").ToList();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -47,24 +46,35 @@ namespace WorkAnalitycsWPF.View
                 grid.RowDefinitions.Add(new RowDefinition());
             }
 
+            UpdateLayout();
+        }
+
+        public void UpdateLayout()
+        {
+            if (Logger.ViewType == 0)
+            {
+                Orders = Orders.Where(x => x.ClientID == Logger.ActiveClientID).ToList(); ;
+            }
+
+
             int clientNum = 0;
             grid.Children.Clear();
 
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Clients.Count(); i++)
+            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Orders.Count(); i++)
             {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Clients.Count(); j++)
+                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Orders.Count(); j++)
                 {
                     Button btn = new Button();
 
                     btn.Name = $"client_{clientNum}";
-                    btn.Content = Clients[clientNum].Name;
+                    btn.Content = Orders[clientNum].DeliveryDate;
 
-                    btn.Click += Client_Click;
+                    btn.Click += Order_Click;
 
-                    btn.Style = client_0.Style;
-                    btn.Width = client_0.Width;
-                    btn.Height = client_0.Height;
-                    
+                    btn.Style = order_0.Style;
+                    btn.Width = order_0.Width;
+                    btn.Height = order_0.Height;
+
 
                     Grid.SetRow(btn, i);
                     Grid.SetColumn(btn, j);
@@ -75,11 +85,9 @@ namespace WorkAnalitycsWPF.View
             }
         }
 
-        private void Client_Click(object sender, RoutedEventArgs e)
+        private void Order_Click(object sender, RoutedEventArgs e)
         {
-            Logger.ActivateClient(GetClientID((sender as Button).Name));
-        }
 
-        private int GetClientID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
+        }
     }
 }

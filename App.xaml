@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="\Theme\Button_Type02.xaml"/>
                 <ResourceDictionary Source="\Theme\Button_CircleButton.xaml"/>
                 <ResourceDictionary Source="\Theme\Button_ToTaskbar.xaml"/>
+                <ResourceDictionary Source="\Theme\Button_Windowed.xaml"/>
                 <ResourceDictionary Source="\Theme\Button_CloseWindow.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

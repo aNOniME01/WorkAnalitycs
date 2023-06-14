@@ -14,24 +14,37 @@
 
         <Grid Background="#E9ECEF" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-
-            <Button Grid.Column="1" x:Name="ToTaskbar" 
+            <Menu>
+                <MenuItem Header="View">
+                    <MenuItem Header="ClientBased" Click="ClientBased_Click"/>
+                    <MenuItem Header="OrderBased" Click="OrderBased_Click"/>
+                </MenuItem>
+            </Menu>
+            
+            <Button Grid.Column="2" x:Name="ToTaskbar" 
                     Click="ToTaskbar_Click"
                     Style="{StaticResource ToTaskbar}"/>
+            
+
+            <Button Grid.Column="3" x:Name="Windowed" 
+                    Click="Windowed_Click"
+                    Style="{StaticResource Windowed}"/>
 
 
-            <Button Grid.Column="2" x:Name="CloseButton"
+            <Button Grid.Column="4" x:Name="CloseButton"
                     Click="CloseButton_Click"
                     Style="{StaticResource CloseWindow}"/>
 
 
         </Grid>
 
-        <Frame x:Name="frame" Grid.Row="1"/>
+        <Frame x:Name="frame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

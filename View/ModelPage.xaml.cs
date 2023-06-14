@@ -13,23 +13,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorkAnalitycsWPF.Data;
 using WorkAnalytics.Data;
 
 namespace WorkAnalitycsWPF.View
 {
     /// <summary>
-    /// Interaction logic for ClientPage.xaml
+    /// Interaction logic for ModelPage.xaml
     /// </summary>
-    public partial class ClientPage : Page
+    public partial class ModelPage : Page
     {
-        private static List<Client> Clients;
-
-        public ClientPage()
+        private List<Model> Models;
+        public ModelPage()
         {
             InitializeComponent();
-            
-            Clients = MiniExcel.Query<Client>("Clients.xlsx").ToList();
+            Models = MiniExcel.Query<Model>("Models.xlsx").ToList();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -50,21 +47,21 @@ namespace WorkAnalitycsWPF.View
             int clientNum = 0;
             grid.Children.Clear();
 
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Clients.Count(); i++)
+            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Models.Count(); i++)
             {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Clients.Count(); j++)
+                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Models.Count(); j++)
                 {
                     Button btn = new Button();
 
                     btn.Name = $"client_{clientNum}";
-                    btn.Content = Clients[clientNum].Name;
+                    btn.Content = Models[clientNum].Name;
 
-                    btn.Click += Client_Click;
+                    btn.Click += Model_Click;
 
-                    btn.Style = client_0.Style;
-                    btn.Width = client_0.Width;
-                    btn.Height = client_0.Height;
-                    
+                    btn.Style = model_0.Style;
+                    btn.Width = model_0.Width;
+                    btn.Height = model_0.Height;
+
 
                     Grid.SetRow(btn, i);
                     Grid.SetColumn(btn, j);
@@ -75,11 +72,9 @@ namespace WorkAnalitycsWPF.View
             }
         }
 
-        private void Client_Click(object sender, RoutedEventArgs e)
+        private void Model_Click(object sender, RoutedEventArgs e)
         {
-            Logger.ActivateClient(GetClientID((sender as Button).Name));
-        }
 
-        private int GetClientID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
+        }
     }
 }

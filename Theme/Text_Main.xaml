@@ -4,7 +4,7 @@
     <Style TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Fonts/Dosis.ttf #Dosis"/>
         <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="Foreground" Value="#CED4DA"/>
+        <Setter Property="Foreground" Value="#213555"/>
     </Style>
 
 </ResourceDictionary>

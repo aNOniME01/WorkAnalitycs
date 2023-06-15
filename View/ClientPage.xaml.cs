@@ -23,7 +23,7 @@ namespace WorkAnalitycsWPF.View
     /// </summary>
     public partial class ClientPage : Page
     {
-        private static List<Client> Clients;
+        private List<Client> Clients;
 
         public ClientPage()
         {
@@ -56,7 +56,7 @@ namespace WorkAnalitycsWPF.View
                 {
                     Button btn = new Button();
 
-                    btn.Name = $"client_{clientNum}";
+                    btn.Name = $"client_{Clients[clientNum].ID}";
                     btn.Content = Clients[clientNum].Name;
 
                     btn.Click += Client_Click;
@@ -81,5 +81,7 @@ namespace WorkAnalitycsWPF.View
         }
 
         private int GetClientID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
+
+        public string GetClientbyID(int id) => Clients.FirstOrDefault(x => x.ID == id).Name;
     }
 }

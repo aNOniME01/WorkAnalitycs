@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkAnalitycsWPF.Data;
 using WorkAnalytics.Data;
 
 namespace WorkAnalitycsWPF.View
@@ -55,6 +56,45 @@ namespace WorkAnalitycsWPF.View
 
                     btn.Name = $"client_{clientNum}";
                     btn.Content = Models[clientNum].Name;
+
+                    btn.Click += Model_Click;
+
+                    btn.Style = model_0.Style;
+                    btn.Width = model_0.Width;
+                    btn.Height = model_0.Height;
+
+
+                    Grid.SetRow(btn, i);
+                    Grid.SetColumn(btn, j);
+
+                    grid.Children.Add(btn);
+                    clientNum++;
+                }
+            }
+
+            UpdateLayout();
+        }
+
+        public void UpdateLayout()
+        {
+            List<Model> selectedOrders = Models;
+            if (Logger.ViewType != 2)
+            {
+                selectedOrders = Models.Where(x => x.OrderID == Logger.ActiveOrderID).ToList();
+            }
+
+
+            int clientNum = 0;
+            grid.Children.Clear();
+
+            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < selectedOrders.Count(); i++)
+            {
+                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < selectedOrders.Count(); j++)
+                {
+                    Button btn = new Button();
+
+                    btn.Name = $"client_{clientNum}";
+                    btn.Content = selectedOrders[clientNum].Name;
 
                     btn.Click += Model_Click;
 

@@ -14,12 +14,13 @@ namespace WorkAnalitycsWPF.Data
         public static ClientPage clientPage;
         public static ModelPage modelPage;
         public static OrderPage orderPage;
+        public static StackTree stackTree;
 
         public static Frame MainFrame;
         public static int ActiveClientID;
         public static int ActiveOrderID;
 
-        public static int ViewType; // 0 : ByClient | 1 : ByOrder
+        public static int ViewType; // 0 : ByClient | 1 : ByOrder | 2 : ByModel
 
         public static void LoadLogger(Frame mainFrame)
         {
@@ -28,8 +29,20 @@ namespace WorkAnalitycsWPF.Data
             clientPage = new ClientPage();
             modelPage = new ModelPage();
             orderPage = new OrderPage();
+            stackTree = new StackTree();
 
-            ViewType = 0;
+            SetViewType(0);
+
+            UpdateStackTree();
+        }
+
+        private static void UpdateStackTree()
+        {
+            stackTree.ClearTreeStack();
+
+            if(ActiveClientID != -1) stackTree.AddToTreeStack(clientPage.GetClientbyID(ActiveClientID) + ">", "client");
+            if (ActiveOrderID != -1) stackTree.AddToTreeStack($"order{ActiveOrderID}>","order");
+            //stackTree.AddToTreeStack("model",clientPage.GetClientbyID(ActiveOrderID));
         }
 
         #region Activate/Deactivate
@@ -39,6 +52,8 @@ namespace WorkAnalitycsWPF.Data
             ActiveClientID = activeClientID;
             MainFrame.Content = orderPage;
             orderPage.UpdateLayout();
+
+            UpdateStackTree();
         }
 
         public static void DeactivateClient() => ActiveClientID = -1;
@@ -47,6 +62,9 @@ namespace WorkAnalitycsWPF.Data
         {
             ActiveOrderID = activeOrderID;
             MainFrame.Content = modelPage;
+            modelPage.UpdateLayout();
+
+            UpdateStackTree();
         }
 
         public static void DeactivateOrder() => ActiveOrderID = -1;
@@ -57,18 +75,26 @@ namespace WorkAnalitycsWPF.Data
         {
             ViewType = viewType;
 
-            if (ViewType == 1)
+            if (ViewType == 0)
+            {
+                MainFrame.Content = clientPage;
+            }
+            else if( ViewType == 1)
             {
                 MainFrame.Content = orderPage;
                 orderPage.UpdateLayout();
             }
             else
             {
-                MainFrame.Content = clientPage;
+                MainFrame.Content = modelPage;
+                modelPage.UpdateLayout();
             }
 
             DeactivateClient();
             DeactivateOrder();
+
+            UpdateStackTree();
+
         }
 
     }

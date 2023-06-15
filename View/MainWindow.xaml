@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:WorkAnalitycsWPF"
         mc:Ignorable="d" WindowStyle="None" Loaded="Window_Loaded" MinHeight="300" MinWidth="200"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#F5EFE7">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#E9ECEF" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown">
+        <Grid Background="#e0dcd5" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition/>
@@ -21,13 +21,18 @@
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <Menu>
-                <MenuItem Header="View">
-                    <MenuItem Header="ClientBased" Click="ClientBased_Click"/>
-                    <MenuItem Header="OrderBased" Click="OrderBased_Click"/>
+            <Menu Background="Transparent">
+                <MenuItem Header="View" Margin="2">
+                    <MenuItem Header="ClientBased" Click="ViewBy_Click"/>
+                    <MenuItem Header="OrderBased" Click="ViewBy_Click"/>
+                    <MenuItem Header="ModelBased" Click="ViewBy_Click"/>
                 </MenuItem>
             </Menu>
-            
+
+            <Frame x:Name="stackTreeFrame" Grid.Column="1" Width="auto"/>
+
+
+
             <Button Grid.Column="2" x:Name="ToTaskbar" 
                     Click="ToTaskbar_Click"
                     Style="{StaticResource ToTaskbar}"/>

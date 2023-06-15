@@ -58,17 +58,17 @@ namespace WorkAnalitycsWPF.View
             }
 
 
-            int clientNum = 0;
+            int orderNum = 0;
             grid.Children.Clear();
 
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < selectedOrders.Count(); i++)
+            for (int i = 0; i < grid.RowDefinitions.Count && orderNum < selectedOrders.Count(); i++)
             {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < selectedOrders.Count(); j++)
+                for (int j = 0; j < grid.ColumnDefinitions.Count && orderNum < selectedOrders.Count(); j++)
                 {
                     Button btn = new Button();
 
-                    btn.Name = $"client_{clientNum}";
-                    btn.Content = $"order{selectedOrders[clientNum].ID}\n{selectedOrders[clientNum].DeliveryDate}";
+                    btn.Name = $"order_{selectedOrders[orderNum].ID}";
+                    btn.Content = $"order{selectedOrders[orderNum].ID}\n{selectedOrders[orderNum].DeliveryDate}";
 
                     btn.Click += Order_Click;
 
@@ -81,14 +81,17 @@ namespace WorkAnalitycsWPF.View
                     Grid.SetColumn(btn, j);
 
                     grid.Children.Add(btn);
-                    clientNum++;
+                    orderNum++;
                 }
             }
         }
 
+
         private void Order_Click(object sender, RoutedEventArgs e)
         {
-
+            Logger.ActivateOrder(GetOrderID((sender as Button).Name));
         }
+
+        private int GetOrderID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
     }
 }

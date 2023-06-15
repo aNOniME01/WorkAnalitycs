@@ -35,11 +35,10 @@ namespace WorkAnalitycsWPF
         {
             Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
 
-            ClientPage clientPage = new ClientPage();
-
-            frame.Content = clientPage;
-
             Logger.LoadLogger(frame);
+
+            stackTreeFrame.Content = Logger.stackTree;
+
         }
 
 
@@ -77,9 +76,13 @@ namespace WorkAnalitycsWPF
 
         #region MenuItems
 
-        private void ClientBased_Click(object sender, RoutedEventArgs e) => Logger.SetViewType(0);
-
-        private void OrderBased_Click(object sender, RoutedEventArgs e) => Logger.SetViewType(1);
+        private void ViewBy_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem hlpr = sender as MenuItem;
+            if (hlpr.Header.ToString() == "ClientBased") Logger.SetViewType(0);
+            else if (hlpr.Header.ToString() == "OrderBased") Logger.SetViewType(1);
+            else Logger.SetViewType(2);
+        }
 
         #endregion
     }

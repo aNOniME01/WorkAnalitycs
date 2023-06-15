@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel Grid.Column="1" Orientation="Horizontal" x:Name="treeStack">
-            <Button Content="asd>" Name="treeButton" Style="{StaticResource TreeButton}"/>
+            <Button Content="asd>" Name="treeButton" Style="{StaticResource TreeButton}" Click="treeButton_Click"/>
         </StackPanel>
     </Grid>
 </Page>

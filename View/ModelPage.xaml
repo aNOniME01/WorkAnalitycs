@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800" SizeChanged="Page_SizeChanged"
       Title="ModelPage">
 
-    <Grid x:Name="grid">
+    <Grid VerticalAlignment="Top" x:Name="grid">
         <Button Content="" x:Name="model_0"
                 Click="Model_Click"
                 Width="120" Height="40"

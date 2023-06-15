@@ -19,6 +19,7 @@ namespace WorkAnalitycsWPF.Data
         public static Frame MainFrame;
         public static int ActiveClientID;
         public static int ActiveOrderID;
+        public static int ActiveModelID;
 
         public static int ViewType; // 0 : ByClient | 1 : ByOrder | 2 : ByModel
 
@@ -45,6 +46,27 @@ namespace WorkAnalitycsWPF.Data
             //stackTree.AddToTreeStack("model",clientPage.GetClientbyID(ActiveOrderID));
         }
 
+        public static void UpdateView()
+        {
+            if (ActiveModelID != -1) 
+            {
+                ActivateModel(ActiveModelID);
+            }
+            else if (ActiveOrderID != -1) 
+            {
+                ActivateOrder(ActiveOrderID);
+            }
+            else if (ActiveClientID != -1) 
+            {
+                ActivateClient(ActiveClientID);
+            }
+            else
+            {
+                SetViewType(ViewType);
+            }
+
+        }
+
         #region Activate/Deactivate
 
         public static void ActivateClient(int activeClientID)
@@ -58,6 +80,7 @@ namespace WorkAnalitycsWPF.Data
 
         public static void DeactivateClient() => ActiveClientID = -1;
 
+
         public static void ActivateOrder(int activeOrderID)
         {
             ActiveOrderID = activeOrderID;
@@ -68,6 +91,18 @@ namespace WorkAnalitycsWPF.Data
         }
 
         public static void DeactivateOrder() => ActiveOrderID = -1;
+
+
+        public static void ActivateModel(int activeModelID)
+        {
+            //ActiveOrderID = activeModelID;
+            MainFrame.Content = modelPage;
+            modelPage.UpdateLayout();
+
+            UpdateStackTree();
+        }
+
+        public static void DeactivateModel() => ActiveModelID = -1;
 
         #endregion
 

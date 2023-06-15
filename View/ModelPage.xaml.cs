@@ -39,10 +39,15 @@ namespace WorkAnalitycsWPF.View
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
+            double rowCount = Math.Ceiling((double)Models.Count / grid.ColumnDefinitions.Count);
+            Height = rowCount * 50;
+
             grid.RowDefinitions.Clear();
-            for (int i = 0; i < Math.Floor(ActualHeight / 50); i++)
+            for (int i = 0; i < rowCount; i++)
             {
-                grid.RowDefinitions.Add(new RowDefinition());
+                var row = new RowDefinition();
+                row.Height = new GridLength(50);
+                grid.RowDefinitions.Add(row);
             }
 
             int clientNum = 0;

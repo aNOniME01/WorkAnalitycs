@@ -15,8 +15,10 @@ namespace WorkAnalitycsWPF.Data
         public static ModelPage modelPage;
         public static OrderPage orderPage;
         public static StackTree stackTree;
+        public static ViewPage viewPage;
 
         public static Frame MainFrame;
+        public static Frame InfoFrame;
         public static int ActiveClientID;
         public static int ActiveOrderID;
         public static int ActiveModelID;
@@ -31,6 +33,7 @@ namespace WorkAnalitycsWPF.Data
             modelPage = new ModelPage();
             orderPage = new OrderPage();
             stackTree = new StackTree();
+            viewPage = new ViewPage();
 
             SetViewType(0);
 
@@ -130,6 +133,15 @@ namespace WorkAnalitycsWPF.Data
 
             UpdateStackTree();
 
+        }
+
+        public static double GetViewerHeight()
+        {
+            if (ActiveModelID != -1)
+            {
+                return viewPage.rowCount;
+            }
+            return 0;
         }
 
     }

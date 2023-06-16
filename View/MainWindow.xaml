@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkAnalitycsWPF"
-        mc:Ignorable="d" WindowStyle="None" Loaded="Window_Loaded" MinHeight="300" MinWidth="200"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Background="#F5EFE7">
+        mc:Ignorable="d" WindowStyle="None" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged"
+        MinHeight="300" MinWidth="200" Height="450" Width="800">
+    <Grid Background="#F5EFE7" ShowGridLines="True" x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#e0dcd5" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown">
+        <Grid Background="#e0dcd5" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition/>
@@ -49,8 +50,18 @@
 
 
         </Grid>
-        <ScrollViewer Grid.Row="1">
+        
+        <Frame x:Name="infoFrame"/>
+        
+        <ScrollViewer Grid.Row="2">
             <Frame x:Name="frame" NavigationUIVisibility="Hidden" VerticalAlignment="Top"/>
         </ScrollViewer>
+
+        <Button Content="Add" Grid.Row="2" Width="50" Height="50" 
+                Style="{StaticResource CircleButton}"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            
+        </Button>
+
     </Grid>
 </Window>

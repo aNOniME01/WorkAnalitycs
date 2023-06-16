@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,14 +32,17 @@ namespace WorkAnalitycsWPF
             InitializeComponent();
         }
 
+        #region Events
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
-
             Logger.LoadLogger(frame);
+
+            Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
 
             stackTreeFrame.Content = Logger.stackTree;
 
+            UpdateViewerHeight();
         }
 
 
@@ -73,6 +77,12 @@ namespace WorkAnalitycsWPF
                 this.Topmost = true;
             }
         }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (IsLoaded) UpdateViewerHeight();
+        }
+
+        #endregion
 
         #region MenuItems
 
@@ -85,5 +95,21 @@ namespace WorkAnalitycsWPF
         }
 
         #endregion
+
+        private void UpdateViewerHeight()
+        {
+            grid.RowDefinitions.Clear();
+            AddRowDefinition(20);
+            AddRowDefinition(Logger.GetViewerHeight());
+            AddRowDefinition(-1);
+        }
+
+        private void AddRowDefinition(double height)
+        {
+            var firts = new RowDefinition();
+            if(height > -1) firts.Height = new GridLength(height);
+            grid.RowDefinitions.Add(firts);
+        }
+
     }
 }

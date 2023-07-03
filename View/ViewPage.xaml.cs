@@ -20,8 +20,9 @@ namespace WorkAnalitycsWPF.View
     /// </summary>
     public partial class ViewPage : Page
     {
-        private int viewElementCount = 0;
+        private List<UIElement> viewElements= new List<UIElement>();
         public int rowCount = 0;
+        private string FileLocation = "";
 
         public ViewPage()
         {
@@ -30,7 +31,12 @@ namespace WorkAnalitycsWPF.View
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            double columnCount = Math.Floor(ActualWidth / 200);
+            UpdateView();
+        }
+
+        public void UpdateView()
+        {
+            double columnCount = ActualWidth > 200 ? Math.Floor(ActualWidth / 200) : 1;
 
             grid.ColumnDefinitions.Clear();
             for (int i = 0; i < columnCount; i++)
@@ -40,15 +46,49 @@ namespace WorkAnalitycsWPF.View
                 grid.ColumnDefinitions.Add(column);
             }
 
-            rowCount = (int)Math.Ceiling(viewElementCount / columnCount);
+            rowCount = (int)Math.Ceiling(viewElements.Count / columnCount);
 
             grid.RowDefinitions.Clear();
-            for (int i = 0; i < columnCount; i++)
+            for (int i = 0; i < rowCount; i++)
             {
-                var column = new RowDefinition();
-                column.MinHeight = 30;
-                grid.RowDefinitions.Add(column);
+                var row = new RowDefinition();
+                row.MinHeight = 30;
+                grid.RowDefinitions.Add(row);
             }
+
+            int InfoNum = 0;
+            grid.Children.Clear();
+
+            for (int i = 0; i < grid.RowDefinitions.Count && InfoNum < viewElements.Count(); i++)
+            {
+                for (int j = 0; j < grid.ColumnDefinitions.Count && InfoNum < viewElements.Count(); j++)
+                {
+                    Grid.SetRow(viewElements[InfoNum], i);
+                    Grid.SetColumn(viewElements[InfoNum], j);
+
+                    grid.Children.Add(viewElements[InfoNum]);
+                    InfoNum++;
+                }
+            }
+        }
+
+        public void ClearViewElements() => viewElements.Clear();
+
+        public void AddLabel(string name, string value)
+        {
+            Label lbl = new Label();
+            lbl.Content = $"{name}: {value}";
+            viewElements.Add(lbl);
+        }
+
+        public void AddLocationButton(string value)
+        {
+            Button btn = new Button();
+            btn.Click += FileLocation_Click;
+            btn.Width = 30;
+            btn.Height = 30;
+
+            FileLocation = value;
         }
 
         private void FileLocation_Click(object sender, RoutedEventArgs e)

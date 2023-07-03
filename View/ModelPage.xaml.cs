@@ -50,33 +50,6 @@ namespace WorkAnalitycsWPF.View
                 grid.RowDefinitions.Add(row);
             }
 
-            int clientNum = 0;
-            grid.Children.Clear();
-
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < Models.Count(); i++)
-            {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < Models.Count(); j++)
-                {
-                    Button btn = new Button();
-
-                    btn.Name = $"client_{clientNum}";
-                    btn.Content = Models[clientNum].Name;
-
-                    btn.Click += Model_Click;
-
-                    btn.Style = model_0.Style;
-                    btn.Width = model_0.Width;
-                    btn.Height = model_0.Height;
-
-
-                    Grid.SetRow(btn, i);
-                    Grid.SetColumn(btn, j);
-
-                    grid.Children.Add(btn);
-                    clientNum++;
-                }
-            }
-
             UpdateLayout();
         }
 
@@ -89,17 +62,17 @@ namespace WorkAnalitycsWPF.View
             }
 
 
-            int clientNum = 0;
+            int modelNum = 0;
             grid.Children.Clear();
 
-            for (int i = 0; i < grid.RowDefinitions.Count && clientNum < selectedOrders.Count(); i++)
+            for (int i = 0; i < grid.RowDefinitions.Count && modelNum < selectedOrders.Count(); i++)
             {
-                for (int j = 0; j < grid.ColumnDefinitions.Count && clientNum < selectedOrders.Count(); j++)
+                for (int j = 0; j < grid.ColumnDefinitions.Count && modelNum < selectedOrders.Count(); j++)
                 {
                     Button btn = new Button();
 
-                    btn.Name = $"client_{clientNum}";
-                    btn.Content = selectedOrders[clientNum].Name;
+                    btn.Name = $"model_{selectedOrders[modelNum].ModelID}";
+                    btn.Content = selectedOrders[modelNum].Name;
 
                     btn.Click += Model_Click;
 
@@ -112,14 +85,18 @@ namespace WorkAnalitycsWPF.View
                     Grid.SetColumn(btn, j);
 
                     grid.Children.Add(btn);
-                    clientNum++;
+                    modelNum++;
                 }
             }
         }
 
         private void Model_Click(object sender, RoutedEventArgs e)
         {
-
+            Logger.ActivateModel(GetModelID((sender as Button).Name));
         }
+
+        public Model GetModelByID(int id) => Models[id];
+
+        private int GetModelID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
     }
 }

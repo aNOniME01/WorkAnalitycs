@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WorkAnalitycsWPF.View;
+using WorkAnalytics.Data;
 
 namespace WorkAnalitycsWPF.Data
 {
@@ -19,15 +21,21 @@ namespace WorkAnalitycsWPF.Data
 
         public static Frame MainFrame;
         public static Frame InfoFrame;
+
+        public static Grid MainGrid;
+
         public static int ActiveClientID;
         public static int ActiveOrderID;
         public static int ActiveModelID;
 
         public static int ViewType; // 0 : ByClient | 1 : ByOrder | 2 : ByModel
 
-        public static void LoadLogger(Frame mainFrame)
+        public static void LoadLogger(Frame mainFrame, Frame infoFrame,Grid grid)
         {
             MainFrame = mainFrame;
+            InfoFrame = infoFrame;
+
+            MainGrid = grid;
 
             clientPage = new ClientPage();
             modelPage = new ModelPage();
@@ -46,7 +54,6 @@ namespace WorkAnalitycsWPF.Data
 
             if(ActiveClientID != -1) stackTree.AddToTreeStack(clientPage.GetClientbyID(ActiveClientID) + ">", "client");
             if (ActiveOrderID != -1) stackTree.AddToTreeStack($"order{ActiveOrderID}>","order");
-            //stackTree.AddToTreeStack("model",clientPage.GetClientbyID(ActiveOrderID));
         }
 
         public static void UpdateView()
@@ -98,16 +105,28 @@ namespace WorkAnalitycsWPF.Data
 
         public static void ActivateModel(int activeModelID)
         {
-            //ActiveOrderID = activeModelID;
-            MainFrame.Content = modelPage;
-            modelPage.UpdateLayout();
+            viewPage.ClearViewElements();
+            ActiveModelID = activeModelID;
+            InfoFrame.Content = viewPage;
+            AddModelInfoToView();
 
+            UpdateViewerHeight();
             UpdateStackTree();
         }
 
         public static void DeactivateModel() => ActiveModelID = -1;
 
         #endregion
+
+        private static void AddModelInfoToView()
+        {
+            Model model = modelPage.GetModelByID(ActiveModelID);
+
+            viewPage.AddLabel("Name",model.Name);
+            viewPage.AddLabel("Delivery",Convert.ToString(model.DeliveryDate));
+            viewPage.AddLabel("HoursWorked", Convert.ToString(model.WorkHours * 24));
+            viewPage.AddLabel("Price", Convert.ToString(model.Price));
+        }
 
         public static void SetViewType(int viewType)
         {
@@ -135,14 +154,36 @@ namespace WorkAnalitycsWPF.Data
 
         }
 
-        public static double GetViewerHeight()
+        public static void UpdateViewerHeight()
         {
+            int x = 0;
             if (ActiveModelID != -1)
             {
-                return viewPage.rowCount;
+                 x = viewPage.rowCount*30;
             }
-            return 0;
+            UpdateViewerHeight(x);
         }
+
+        #region GridOperations
+
+        private static void UpdateViewerHeight(int viewHeight)
+        {
+            viewPage.UpdateView();
+
+            MainGrid.RowDefinitions.Clear();
+            AddRowDefinition(20);
+            AddRowDefinition(viewHeight);
+            AddRowDefinition(-1);
+        }
+
+        private static void AddRowDefinition(double height)
+        {
+            var firts = new RowDefinition();
+            if (height > -1) firts.Height = new GridLength(height);
+            MainGrid.RowDefinitions.Add(firts);
+        }
+
+        #endregion
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkAnalytics.Data
 {
-    internal class Model
+    public class Model
     {
         public int ModelID { get;  set; }
         public int OrderID { get;  set; }

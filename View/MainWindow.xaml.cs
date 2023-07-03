@@ -36,13 +36,13 @@ namespace WorkAnalitycsWPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Logger.LoadLogger(frame);
+            Logger.LoadLogger(frame,infoFrame,grid);
 
             Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
 
             stackTreeFrame.Content = Logger.stackTree;
 
-            UpdateViewerHeight();
+            Logger.UpdateViewerHeight();
         }
 
 
@@ -79,7 +79,7 @@ namespace WorkAnalitycsWPF
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (IsLoaded) UpdateViewerHeight();
+            if (IsLoaded) Logger.UpdateViewerHeight();
         }
 
         #endregion
@@ -95,21 +95,5 @@ namespace WorkAnalitycsWPF
         }
 
         #endregion
-
-        private void UpdateViewerHeight()
-        {
-            grid.RowDefinitions.Clear();
-            AddRowDefinition(20);
-            AddRowDefinition(Logger.GetViewerHeight());
-            AddRowDefinition(-1);
-        }
-
-        private void AddRowDefinition(double height)
-        {
-            var firts = new RowDefinition();
-            if(height > -1) firts.Height = new GridLength(height);
-            grid.RowDefinitions.Add(firts);
-        }
-
     }
 }

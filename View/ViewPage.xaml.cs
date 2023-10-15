@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,16 +85,28 @@ namespace WorkAnalitycsWPF.View
         public void AddLocationButton(string value)
         {
             Button btn = new Button();
+            btn.Content = "Open";
             btn.Click += FileLocation_Click;
             btn.Width = 30;
             btn.Height = 30;
 
             FileLocation = value;
+
+            viewElements.Add(btn);
+
         }
 
         private void FileLocation_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                FileLocation = "C:\\Users\\dobes\\Downloads";
+                Process.Start("explorer.exe", @FileLocation);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message,"Error",MessageBoxButton.OK);
+            }
         }
 
     }

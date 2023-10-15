@@ -42,6 +42,7 @@ namespace WorkAnalitycsWPF.Data
             orderPage = new OrderPage();
             stackTree = new StackTree();
             viewPage = new ViewPage();
+            
 
             SetViewType(0);
 
@@ -55,6 +56,8 @@ namespace WorkAnalitycsWPF.Data
             if(ActiveClientID != -1) stackTree.AddToTreeStack(clientPage.GetClientbyID(ActiveClientID) + ">", "client");
             if (ActiveOrderID != -1) stackTree.AddToTreeStack($"order{ActiveOrderID}>","order");
         }
+
+        #region View
 
         public static void UpdateView()
         {
@@ -76,6 +79,55 @@ namespace WorkAnalitycsWPF.Data
             }
 
         }
+
+        private static void AddModelInfoToView()
+        {
+            Model model = modelPage.GetModelByID(ActiveModelID);
+
+            viewPage.AddLabel("Name", model.Name);
+            viewPage.AddLabel("Delivery", Convert.ToString(model.DeliveryDate));
+            viewPage.AddLabel("HoursWorked", Convert.ToString(model.WorkHours * 24));
+            viewPage.AddLabel("Price", Convert.ToString(model.Price));
+            if (model.FileLocation != "" || model.FileLocation != null) viewPage.AddLocationButton(model.FileLocation);
+        }
+
+        public static void SetViewType(int viewType)
+        {
+            ViewType = viewType;
+
+            if (ViewType == 0)
+            {
+                MainFrame.Content = clientPage;
+            }
+            else if (ViewType == 1)
+            {
+                MainFrame.Content = orderPage;
+                orderPage.UpdateLayout();
+            }
+            else
+            {
+                MainFrame.Content = modelPage;
+                modelPage.UpdateLayout();
+            }
+
+            DeactivateClient();
+            DeactivateOrder();
+
+            UpdateStackTree();
+
+        }
+
+        public static void UpdateViewerHeight()
+        {
+            int x = 0;
+            if (ActiveModelID != -1)
+            {
+                x = viewPage.rowCount * 30;
+            }
+            UpdateViewerHeight(x);
+        }
+
+        #endregion
 
         #region Activate/Deactivate
 
@@ -118,52 +170,6 @@ namespace WorkAnalitycsWPF.Data
 
         #endregion
 
-        private static void AddModelInfoToView()
-        {
-            Model model = modelPage.GetModelByID(ActiveModelID);
-
-            viewPage.AddLabel("Name",model.Name);
-            viewPage.AddLabel("Delivery",Convert.ToString(model.DeliveryDate));
-            viewPage.AddLabel("HoursWorked", Convert.ToString(model.WorkHours * 24));
-            viewPage.AddLabel("Price", Convert.ToString(model.Price));
-        }
-
-        public static void SetViewType(int viewType)
-        {
-            ViewType = viewType;
-
-            if (ViewType == 0)
-            {
-                MainFrame.Content = clientPage;
-            }
-            else if( ViewType == 1)
-            {
-                MainFrame.Content = orderPage;
-                orderPage.UpdateLayout();
-            }
-            else
-            {
-                MainFrame.Content = modelPage;
-                modelPage.UpdateLayout();
-            }
-
-            DeactivateClient();
-            DeactivateOrder();
-
-            UpdateStackTree();
-
-        }
-
-        public static void UpdateViewerHeight()
-        {
-            int x = 0;
-            if (ActiveModelID != -1)
-            {
-                 x = viewPage.rowCount*30;
-            }
-            UpdateViewerHeight(x);
-        }
-
         #region GridOperations
 
         private static void UpdateViewerHeight(int viewHeight)
@@ -184,6 +190,5 @@ namespace WorkAnalitycsWPF.Data
         }
 
         #endregion
-
     }
 }

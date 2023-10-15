@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkAnalitycsWPF"
-        mc:Ignorable="d" WindowStyle="None" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged"
+        mc:Ignorable="d" WindowStyle="None" Loaded="Window_Loaded" Closing="Window_Closing" SizeChanged="Window_SizeChanged"
         MinHeight="300" MinWidth="250" Height="450" Width="800">
     <Grid Background="#F5EFE7" ShowGridLines="True" x:Name="grid">
         <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
 
         <Grid Background="#e0dcd5" Grid.ColumnSpan="2" MouseDown="Grid_MouseDown" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="110"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="30"/>
@@ -23,12 +23,21 @@
             </Grid.ColumnDefinitions>
 
             <Menu Background="Transparent">
+                
                 <MenuItem Header="View" Margin="2">
                     <MenuItem Header="ClientBased" Click="ViewBy_Click"/>
                     <MenuItem Header="OrderBased" Click="ViewBy_Click"/>
                     <MenuItem Header="ModelBased" Click="ViewBy_Click"/>
                 </MenuItem>
+                
+                <MenuItem Header="Options" Margin="2">
+                    <MenuItem Header="ModelDirectory">
+                        <TextBox x:Name="modelLocText" Width="100" TextChanged="TextBox_TextChanged"/>
+                    </MenuItem>
+                </MenuItem>
+
             </Menu>
+            
 
             <Frame x:Name="stackTreeFrame" Grid.Column="1" Width="auto"/>
 

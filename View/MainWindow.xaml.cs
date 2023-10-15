@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using WorkAnalitycsWPF.Data;
 using WorkAnalitycsWPF.View;
 using WorkAnalytics.Data;
@@ -27,6 +28,7 @@ namespace WorkAnalitycsWPF
     {
 
         private static List<Revision> Revisions;
+        private Options options;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +39,9 @@ namespace WorkAnalitycsWPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Logger.LoadLogger(frame,infoFrame,grid);
+
+            options = new Options("options.txt");
+            LoadOptions();
 
             Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();
 
@@ -82,6 +87,8 @@ namespace WorkAnalitycsWPF
             if (IsLoaded) Logger.UpdateViewerHeight();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => options.Save();
+
         #endregion
 
         #region MenuItems
@@ -94,6 +101,14 @@ namespace WorkAnalitycsWPF
             else Logger.SetViewType(2);
         }
 
+        private void LoadOptions()
+        {
+            modelLocText.Text = options.ModelDir;
+        }
+
         #endregion
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => options.ChangeModelDir((sender as TextBox).Text);
+
     }
 }

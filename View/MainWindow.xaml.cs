@@ -40,7 +40,7 @@ namespace WorkAnalitycsWPF
         {
             Logger.LoadLogger(frame,infoFrame,grid);
 
-            options = new Options("options.txt");
+            options = new Options(FileOperatinos.GetOptionsPath());
             LoadOptions();
 
             Revisions = MiniExcel.Query<Revision>("Revisions.xlsx").ToList();

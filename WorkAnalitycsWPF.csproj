@@ -8,7 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\options.json" />
+    <None Remove="Files\options.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MiniExcel" Version="1.31.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Files\options.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Files\options.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

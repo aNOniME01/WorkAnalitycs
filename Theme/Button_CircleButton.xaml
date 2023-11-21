@@ -3,8 +3,10 @@
     
     <Style x:Key="CircleButton" TargetType="Button">
         <Setter Property="FontSize" Value="14"/>
-
+        
+        <Setter Property="Foreground" Value="#C8CBCF"/>
         <Setter Property="Background" Value="#343A40"/>
+        
 
         <Setter Property="Template">
             <Setter.Value>

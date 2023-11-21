@@ -1,6 +1,7 @@
 ﻿using MiniExcelLibs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,11 @@ namespace WorkAnalitycsWPF.View
                 grid.RowDefinitions.Add(row);
             }
 
+            UpdateLayout();
+        }
+
+        public void UpdateLayout()
+        {
             int clientNum = 0;
             grid.Children.Clear();
 
@@ -69,7 +75,7 @@ namespace WorkAnalitycsWPF.View
                     btn.Style = client_0.Style;
                     btn.Width = client_0.Width;
                     btn.Height = client_0.Height;
-                    
+
 
                     Grid.SetRow(btn, i);
                     Grid.SetColumn(btn, j);
@@ -78,6 +84,7 @@ namespace WorkAnalitycsWPF.View
                     clientNum++;
                 }
             }
+
         }
 
         private void Client_Click(object sender, RoutedEventArgs e)
@@ -88,5 +95,33 @@ namespace WorkAnalitycsWPF.View
         private int GetClientID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
 
         public string GetClientbyID(int id) => Clients.FirstOrDefault(x => x.ID == id).Name;
+
+        public void AddClient(string clientName)
+        {
+            Clients.Add(new Client(Clients.Count, clientName));
+        }
+
+        public bool DoesClientExists(string name)
+        {
+            int i = 0;
+            while (i < Clients.Count)
+            {
+                if (Clients[i].Name == name) return true;
+                i++;
+            }
+            return false;
+        }
+
+        public void SaveClients()
+        {
+            var values = new List<Dictionary<string, object>>();
+            for (int i = 0; i < Clients.Count; i++)
+            {
+                values.Add(new Dictionary<string, object> { { "ID", Clients[i].ID }, { "Name", Clients[i].Name } });
+            }
+
+            File.Delete("Clients.xlsx");
+            MiniExcel.SaveAs("Clients.xlsx", values);
+        }
     }
 }

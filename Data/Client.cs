@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WorkAnalytics.Data
 {
-    internal class Client
+    public class Client
     {
 
         public int ID { get;  set; }
@@ -15,13 +15,13 @@ namespace WorkAnalytics.Data
 
         public Client()
         {
-            
+
         }
 
-        public Client(string name, int id)
+        public Client(int id, string name)
         {
-            Name = name;
             ID = id;
+            Name = name;
         }
     }
 }

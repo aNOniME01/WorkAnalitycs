@@ -50,8 +50,6 @@ namespace WorkAnalitycsWPF
             Logger.UpdateViewerHeight();
         }
 
-
-
         private void ToTaskbar_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -82,10 +80,31 @@ namespace WorkAnalitycsWPF
                 this.Topmost = true;
             }
         }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (IsLoaded) Logger.UpdateViewerHeight();
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (frame.Content == Logger.addClientPage /* add page, add model */)
+            {
+                AddButton.Content = "Add";
+
+                frame.Content = Logger.clientPage;
+
+                Logger.SaveAddedElement();
+            }
+            else
+            {
+                AddButton.Content = "Save";
+
+                Logger.OpenAddView();
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => options.ChangeModelDir((sender as TextBox).Text);
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => options.Save();
 
@@ -96,9 +115,9 @@ namespace WorkAnalitycsWPF
         private void ViewBy_Click(object sender, RoutedEventArgs e)
         {
             MenuItem hlpr = sender as MenuItem;
-            if (hlpr.Header.ToString() == "ClientBased") Logger.SetViewType(0);
-            else if (hlpr.Header.ToString() == "OrderBased") Logger.SetViewType(1);
-            else Logger.SetViewType(2);
+            if (hlpr.Header.ToString() == "ClientBased") Logger.SetViewType(ViewType.ByClient);
+            else if (hlpr.Header.ToString() == "OrderBased") Logger.SetViewType(ViewType.ByOrder);
+            else Logger.SetViewType(ViewType.ByModel);
         }
 
         private void LoadOptions()
@@ -108,7 +127,6 @@ namespace WorkAnalitycsWPF
 
         #endregion
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => options.ChangeModelDir((sender as TextBox).Text);
 
     }
 }

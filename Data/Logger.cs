@@ -11,6 +11,11 @@ using WorkAnalytics.Data;
 
 namespace WorkAnalitycsWPF.Data
 {
+    public enum ViewType
+    {
+        ByClient,ByOrder,ByModel
+    }
+
     public class Logger
     {
         public static ClientPage clientPage;
@@ -18,6 +23,7 @@ namespace WorkAnalitycsWPF.Data
         public static OrderPage orderPage;
         public static StackTree stackTree;
         public static ViewPage viewPage;
+        public static AddClientPage addClientPage;
 
         public static Frame MainFrame;
         public static Frame InfoFrame;
@@ -28,7 +34,7 @@ namespace WorkAnalitycsWPF.Data
         public static int ActiveOrderID;
         public static int ActiveModelID;
 
-        public static int ViewType; // 0 : ByClient | 1 : ByOrder | 2 : ByModel
+        public static ViewType ViewType;
 
         public static void LoadLogger(Frame mainFrame, Frame infoFrame,Grid grid)
         {
@@ -42,6 +48,7 @@ namespace WorkAnalitycsWPF.Data
             orderPage = new OrderPage();
             stackTree = new StackTree();
             viewPage = new ViewPage();
+            addClientPage = new AddClientPage();
             
 
             SetViewType(0);
@@ -91,15 +98,15 @@ namespace WorkAnalitycsWPF.Data
             if (model.FileLocation != "" || model.FileLocation != null) viewPage.AddLocationButton(model.FileLocation);
         }
 
-        public static void SetViewType(int viewType)
+        public static void SetViewType(ViewType viewType)
         {
             ViewType = viewType;
 
-            if (ViewType == 0)
+            if (ViewType == ViewType.ByClient)
             {
                 MainFrame.Content = clientPage;
             }
-            else if (ViewType == 1)
+            else if (ViewType == ViewType.ByOrder)
             {
                 MainFrame.Content = orderPage;
                 orderPage.UpdateLayout();
@@ -170,6 +177,28 @@ namespace WorkAnalitycsWPF.Data
 
         #endregion
 
+        #region Create
+
+        public static void OpenAddView()
+        {
+            if (ActiveClientID == -1)
+            {
+                MainFrame.Content = addClientPage;
+            }
+        }
+        public static void SaveAddedElement()
+        {
+            if (ActiveClientID == -1)
+            {
+                string name = addClientPage.clientName.Text;
+                if (!clientPage.DoesClientExists(name)) clientPage.AddClient(name);
+                clientPage.UpdateLayout();
+            }
+        }
+
+
+        #endregion
+
         #region GridOperations
 
         private static void UpdateViewerHeight(int viewHeight)
@@ -190,5 +219,10 @@ namespace WorkAnalitycsWPF.Data
         }
 
         #endregion
+
+        public static void SaveTables()
+        {
+            clientPage.SaveClients();
+        }
     }
 }

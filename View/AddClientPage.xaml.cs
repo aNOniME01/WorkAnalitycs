@@ -18,9 +18,9 @@ namespace WorkAnalitycsWPF.View
     /// <summary>
     /// Interaction logic for CreateClientPage.xaml
     /// </summary>
-    public partial class CreateClientPage : Page
+    public partial class AddClientPage : Page
     {
-        public CreateClientPage()
+        public AddClientPage()
         {
             InitializeComponent();
         }

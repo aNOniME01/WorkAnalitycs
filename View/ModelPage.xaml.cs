@@ -56,7 +56,7 @@ namespace WorkAnalitycsWPF.View
         public void UpdateLayout()
         {
             List<Model> selectedOrders = Models;
-            if (Logger.ViewType != 2)
+            if (Logger.ViewType != ViewType.ByModel)
             {
                 selectedOrders = Models.Where(x => x.OrderID == Logger.ActiveOrderID).ToList();
             }

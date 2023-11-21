@@ -66,8 +66,8 @@
             <Frame x:Name="frame" NavigationUIVisibility="Hidden" VerticalAlignment="Top"/>
         </ScrollViewer>
 
-        <Button Content="Add" Grid.Row="2" Width="50" Height="50" 
-                Style="{StaticResource CircleButton}"
+        <Button Content="Add" x:Name="AddButton" Click="AddButton_Click" Grid.Row="2"
+                Width="50" Height="50" Style="{StaticResource CircleButton}"
                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             
         </Button>

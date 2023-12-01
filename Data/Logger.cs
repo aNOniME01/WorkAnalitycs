@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Navigation;
 using WorkAnalitycsWPF.View;
 using WorkAnalytics.Data;
@@ -24,6 +25,7 @@ namespace WorkAnalitycsWPF.Data
         public static StackTree stackTree;
         public static ViewPage viewPage;
         public static AddClientPage addClientPage;
+        public static AddModelPage addModelPage;
 
         public static Frame MainFrame;
         public static Frame InfoFrame;
@@ -49,6 +51,7 @@ namespace WorkAnalitycsWPF.Data
             stackTree = new StackTree();
             viewPage = new ViewPage();
             addClientPage = new AddClientPage();
+            addModelPage = new AddModelPage();
             
 
             SetViewType(0);
@@ -181,10 +184,9 @@ namespace WorkAnalitycsWPF.Data
 
         public static void OpenAddView()
         {
-            if (ActiveClientID == -1)
-            {
-                MainFrame.Content = addClientPage;
-            }
+            if (ActiveClientID == -1) MainFrame.Content = addClientPage;
+            if (ActiveClientID != -1) ;
+            if (ActiveOrderID != -1) MainFrame.Content = addModelPage;
         }
         public static void SaveAddedElement()
         {
@@ -193,6 +195,15 @@ namespace WorkAnalitycsWPF.Data
                 string name = addClientPage.clientName.Text;
                 if (!clientPage.DoesClientExists(name)) clientPage.AddClient(name);
                 clientPage.UpdateLayout();
+            }
+            if (ActiveClientID != -1)
+            {
+
+            }
+            if (ActiveOrderID != -1)
+            {
+                if (!modelPage.DoesModelExist(ActiveOrderID,addModelPage.name.Text)) modelPage.AddToModels(addModelPage.name.Text,addModelPage.location.Text, double.Parse(addModelPage.price.Text), Convert.ToDateTime(addModelPage.deliveryDate.Text), double.Parse(addModelPage.workhours.Text));
+                modelPage.UpdateLayout();
             }
         }
 

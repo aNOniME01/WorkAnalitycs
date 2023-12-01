@@ -1,6 +1,7 @@
 ﻿using MiniExcelLibs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,5 +99,42 @@ namespace WorkAnalitycsWPF.View
         public Model GetModelByID(int id) => Models[id];
 
         private int GetModelID(string buttonName) => int.Parse(buttonName.Split('_')[1]);
+
+        public void AddToModels(string modelName, string? modelLocation, double modelPrice, DateTime? deliveryDate, double workHours)
+        {
+            Models.Add(new Model(Models.Count,Logger.ActiveOrderID,modelName,modelLocation,modelPrice,deliveryDate,workHours));
+        }
+
+        public bool DoesModelExist(int orderID, string modelName)
+        {
+            foreach (var model in Models.Where(x => x.OrderID == orderID))
+            {
+                if (model.Name == modelName) return true;
+            }
+            return false;
+        }
+
+        public void SaveModels()
+        {
+            var values = new List<Dictionary<string, object>>();
+            for (int i = 0; i < Models.Count; i++)
+            {
+                values.Add(new Dictionary<string, object>
+                {
+                    { "ModelID", Models[i].ModelID },
+                    { "OrderID", Models[i].OrderID },
+                    { "Name", Models[i].Name },
+                    { "FileLocation", TrimNull(Models[i].FileLocation)},
+                    { "Price", Models[i].Price },
+                    { "DeliveryDate", TrimNull(Models[i].DeliveryDate) },
+                    { "WorkHours", TrimNull(Models[i].WorkHours) }
+                }) ;
+            }
+
+            File.Delete("Models2.xlsx");
+            MiniExcel.SaveAs("Models2.xlsx", values);
+        }
+
+        private object TrimNull(object? obj) => obj == null ? "" : obj;
     }
 }

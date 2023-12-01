@@ -88,7 +88,7 @@ namespace WorkAnalitycsWPF
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (frame.Content == Logger.addClientPage /* add page, add model */)
+            if (frame.Content == Logger.addClientPage || /* add order */ frame.Content == Logger.addModelPage)
             {
                 AddButton.Content = "Add";
 
@@ -106,7 +106,11 @@ namespace WorkAnalitycsWPF
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e) => options.ChangeModelDir((sender as TextBox).Text);
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) => options.Save();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            options.Save();
+            Logger.SaveTables();
+        }
 
         #endregion
 
